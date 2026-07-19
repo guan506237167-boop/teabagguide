@@ -1,4 +1,4 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 
 User-agent: GPTBot
@@ -15,4 +15,3 @@ User-agent: PerplexityBot
 Allow: /
 
 Sitemap: https://www.teabagguide.com/sitemap.xml
-
