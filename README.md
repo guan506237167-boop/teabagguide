@@ -1,19 +1,8 @@
 # Herbal Tea Bag Guide
 
-Local MVP for review before domain purchase.
+Official deploy source for https://www.teabagguide.com.
 
-## Commands
-
-```bash
-npm run dev
-npm run audit
-```
-
-## Review standard
-
-- All navigation pages open.
-- No empty categories.
-- Images have fixed ratios and do not stretch.
-- Main tool works locally.
-- Article template has cover image, sidebar, recent articles, category link, and search box.
-- SEO files are present: robots.txt, sitemap.xml, llms.txt.
+- Use `dist/` as the Cloudflare/Wrangler assets directory.
+- Do not regenerate from the old template scaffold.
+- The previous premium working copy has been merged into `dist/`.
+- Required production checks: GA, AdSense, PayPal checkout entry, robots.txt, sitemap.xml, and /disclaimer/.
