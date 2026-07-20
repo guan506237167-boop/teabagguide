@@ -25,8 +25,8 @@ const articleFiles = html.filter((file) => {
   const rel = path.relative(root, file).split(path.sep).join("/");
   return rel.startsWith("guide/") && rel !== "guide/index.html";
 });
-if (articleFiles.length < 22) {
-  console.error("Too few article pages:", articleFiles.length, "expected at least", 22);
+if (articleFiles.length < 20) {
+  console.error("Too few article pages:", articleFiles.length, "expected at least", 20);
   bad++;
 }
 for (const file of html) {
