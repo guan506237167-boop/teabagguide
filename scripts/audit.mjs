@@ -14,7 +14,7 @@ function words(value) {
 }
 walk(root);
 let bad = 0;
-const requiredPages = ["index.html", "about/index.html", "contact/index.html", "privacy/index.html", "terms/index.html", "guide/index.html", "tools/index.html", "faq/index.html"];
+const requiredPages = ["index.html", "about/index.html", "contact/index.html", "privacy/index.html", "terms/index.html", "disclaimer/index.html", "guide/index.html", "tools/index.html", "faq/index.html"];
 for (const page of requiredPages) {
   if (!fs.existsSync(path.join(root, page))) {
     console.error("Missing required page:", page);

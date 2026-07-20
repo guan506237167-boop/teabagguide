@@ -12,6 +12,7 @@ Key sections:
 - https://www.teabagguide.com/contact/
 - https://www.teabagguide.com/privacy/
 - https://www.teabagguide.com/terms/
+- https://www.teabagguide.com/disclaimer/
 - https://www.teabagguide.com/categories/tea-types/
 - https://www.teabagguide.com/categories/buying-guide/
 - https://www.teabagguide.com/categories/gift-ideas/
