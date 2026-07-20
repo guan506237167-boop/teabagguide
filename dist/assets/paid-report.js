@@ -1,25 +1,36 @@
-﻿(function () {
-  const defaultBase = "https://console.shanyuegroup.com";
+(function () {
+  const base = (window.MCC_BASE_URL || "https://console.shanyuegroup.com").replace(/\/$/, "");
+  const checkoutUrl = `${base}/api/checkout/create`;
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  function status(card, message, isError) {
-    const node = card.querySelector("[data-paid-status]");
-    if (!node) return;
-    node.textContent = message;
-    node.classList.toggle("is-error", Boolean(isError));
+  function inputMap(card) {
+    try {
+      return JSON.parse(card.getAttribute("data-paid-inputs") || "{}");
+    } catch {
+      return {};
+    }
   }
 
   function collectInput(card) {
-    return {
-      source: card.getAttribute("data-paid-site") || "unknown",
-      question: card.getAttribute("data-paid-question") || "Create a paid report.",
-      page: window.location.pathname,
-      userAgent: navigator.userAgent
-    };
+    const root = card.closest(".container") || document;
+    const input = {};
+    Object.entries(inputMap(card)).forEach(([key, selector]) => {
+      const field = root.querySelector(selector);
+      input[key] = field ? String(field.value || field.textContent || "").trim() : "";
+    });
+    input.source = card.getAttribute("data-paid-site") || "herbal-tea";
+    input.question = `Tea bags for ${input.moment || "daily use"}; flavor ${input.flavor || "not selected"}; caffeine ${input.caffeine || "not selected"}`;
+    return input;
+  }
+
+  function setStatus(card, message, isError) {
+    const status = card.querySelector("[data-paid-status]");
+    if (!status) return;
+    status.textContent = message;
+    status.classList.toggle("is-error", Boolean(isError));
   }
 
   async function startCheckout(card) {
-    const form = card.querySelector("[data-paid-form]");
     const emailInput = card.querySelector("[data-paid-email]");
     const button = card.querySelector("[data-paid-checkout]");
     const email = String(emailInput && emailInput.value || "").trim();
@@ -28,40 +39,37 @@
         emailInput.focus();
         emailInput.setAttribute("aria-invalid", "true");
       }
-      status(card, "Enter a valid email address so the report link can be delivered.", true);
+      setStatus(card, "Enter a valid email address for checklist delivery.", true);
       return;
     }
     if (emailInput) emailInput.removeAttribute("aria-invalid");
     const oldText = button ? button.textContent : "";
     if (button) {
       button.disabled = true;
-      button.textContent = "Opening secure checkout...";
+      button.textContent = "Creating checkout...";
     }
-    status(card, "Connecting to PayPal checkout...", false);
+    setStatus(card, "Connecting to secure checkout...", false);
     try {
-      const endpoint = card.getAttribute("data-paid-endpoint") || defaultBase + "/api/checkout/create";
-      const response = await fetch(endpoint, {
+      const response = await fetch(card.getAttribute("data-paid-endpoint") || checkoutUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           provider: card.getAttribute("data-paid-provider") || "paypal",
-          site: card.getAttribute("data-paid-site"),
-          product: card.getAttribute("data-paid-product"),
+          site: card.getAttribute("data-paid-site") || "herbal-tea",
+          product: card.getAttribute("data-paid-product") || "buying-checklist",
           email,
           input: collectInput(card)
         })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || "checkout_failed");
-      const nextUrl = data.checkoutUrl || data.approvalUrl;
-      if (!nextUrl) throw new Error("checkout_url_missing");
-      window.location.href = nextUrl;
+      window.location.href = data.checkoutUrl || data.approvalUrl;
     } catch (error) {
       if (button) {
         button.disabled = false;
         button.textContent = oldText;
       }
-      status(card, "Checkout failed: " + error.message, true);
+      setStatus(card, `Checkout failed: ${error.message}`, true);
     }
   }
 
@@ -73,4 +81,3 @@
     if (card) startCheckout(card);
   });
 })();
-
