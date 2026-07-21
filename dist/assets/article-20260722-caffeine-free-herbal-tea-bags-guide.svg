@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Caffeine-Free Herbal Tea Bags: Lab">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#24382f"/><stop offset="0.52" stop-color="#8f5f37"/><stop offset="1" stop-color="#d9b66f"/></linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#1d1712" flood-opacity=".24"/></filter>
+  </defs>
+  <rect width="1200" height="630" rx="42" fill="#fff7ea"/>
+  <rect x="54" y="54" width="1092" height="522" rx="34" fill="url(#g)"/>
+  <circle cx="210" cy="188" r="72" fill="#fff7ea" opacity=".18"/>
+  <circle cx="990" cy="438" r="124" fill="#fff7ea" opacity=".12"/>
+  <g filter="url(#s)">
+    <rect x="230" y="176" width="740" height="278" rx="28" fill="#fffaf1" opacity=".95"/>
+    <path d="M310 250h580M310 316h390M310 382h510" stroke="#7c5a34" stroke-width="22" stroke-linecap="round" opacity=".28"/>
+    <circle cx="872" cy="354" r="48" fill="#d9b66f"/>
+    <path d="M852 356l24 24 46-62" fill="none" stroke="#24382f" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
