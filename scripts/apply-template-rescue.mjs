@@ -58,22 +58,7 @@ function removeNoindex(html) {
   return html.replace(/\s*<meta\s+name=["']robots["']\s+content=["']noindex,\s*follow["']\s*\/?>/i, "");
 }
 function qualityBlock(path, html) {
-  if (/data-template-rescue-quality/i.test(html)) return html;
-  if (/Quick Answer/i.test(html) && /(Basic Facts|Quick Facts|At a Glance|Fact Card)/i.test(html) && /(Data anchor|data-anchor|data-geo)/i.test(html)) return html;
-  const h1 = textOf(html, /<h1[^>]*>(.*?)<\/h1>/is) || textOf(html, /<title[^>]*>(.*?)<\/title>/is) || "this guide";
-  const desc = textOf(html, /<meta\s+name=["']description["']\s+content=["']([^"']+)["']/is) || `Use ${h1} as a practical reference page.`;
-  const slug = path.replace(/^\//, "").replace(/\/$/, "") || "home";
-  const role = path.includes("tool") || path.includes("calculator") || path.includes("lookup") || path.includes("life-path") || path.includes("name-number") ? "tool page" : path.includes("guide") ? "guide page" : path.includes("report") || path.includes("product") ? "commercial support page" : path.includes("compatibility") ? "comparison page" : "core reference page";
-  const block = `
-<section class="rescue-quality-note" data-template-rescue-quality="20260722" data-anchor="${slug}-core-quality-note">
-  <h2>Quick Answer</h2>
-  <p>${h1} is a ${role} kept in the active sitemap because it answers a specific visitor task. ${desc}</p>
-  <div class="fact-card"><strong>Basic Facts</strong><ul><li>Primary role: ${role}</li><li>Indexing reason: main navigation, search intent, or practical reference value.</li><li>Editorial boundary: cultural explanation only; no guaranteed result or professional advice.</li></ul></div>
-  <p><strong>Data anchor:</strong> This core page supports ${base || "the site"} by linking a user question to a calculator, guide, comparison, or reference path.</p>
-</section>
-`;
-  if (/<\/main>/i.test(html)) return html.replace(/<\/main>/i, `${block}</main>`);
-  return html.replace(/<\/body>/i, `${block}</body>`);
+  return html;
 }
 
 let changed = 0, noindexed = 0, boosted = 0, canonicalAdded = 0;
@@ -101,3 +86,5 @@ for (const file of await listHtml(dist)) {
   }
 }
 console.log(JSON.stringify({ htmlChanged: changed, noindexPages: noindexed, boostedPages: boosted, canonicalAdded, sitemapPages: indexable.size, boostTargets }, null, 2));
+
+
